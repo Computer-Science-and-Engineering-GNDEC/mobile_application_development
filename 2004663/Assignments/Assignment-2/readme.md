@@ -240,37 +240,28 @@ from any Context subclass, such as an Activity or a Service.
 
 ***Example:***
 
+```java
 public class MyApplication extends Application {
-``` java
-@Override
 
-public void onCreate() {
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
-super.onCreate();
+        // Obtain the application context
+        Context appContext = getApplicationContext();
 
-// Access application context
+        // Access resources using the application context
+        String appName = appContext.getString(R.string.app_name);
 
-Context appContext = getApplicationContext();
+        // Access system services using the application context
+        NotificationManager notificationManager = (NotificationManager) appContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
-// Access resources
+        // Start service using the application context
+        appContext.startService(new Intent(appContext, MyService.class));
 
-String appName = appContext.getString(R.string.app_name);
-
-// Access system service
-
-NotificationManager notificationManager = (NotificationManager)
-appContext.getSystemService(Context.NOTIFICATION_SERVICE);
-
-// Start service using application context
-
-appContext.startService(new Intent(appContext, MyService.class));
-
-// Access file operations
-
-FileInputStream fis = appContext.openFileInput("myfile.txt");
-
-}
-
+        // Access file operations using the application context
+        FileInputStream fis = appContext.openFileInput("myfile.txt");
+    }
 }
 ```
 ***Important Notes:***
@@ -328,32 +319,20 @@ interactions, and responding to lifecycle events.
 ```java
 public class MainActivity extends AppCompatActivity {
 
-@Override
-
-protected void onCreate(Bundle savedInstanceState) {
-
-super.onCreate(savedInstanceState);
-
-setContentView(R.layout.activity_main);
-
-// Initialize UI components and set up event listeners
-
-Button button = findViewById(R.id.button);
-
-button.setOnClickListener(new View.OnClickListener() {
-
-@Override
-
-public void onClick(View v) {
-
-// Perform action when button is clicked
-
-}
-
-});
-
-}
-
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        // Initialize UI components and set up event listeners
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform action when button is clicked
+            }
+        });
+    }
 }
 ```
 **Lifecycle Methods:**
@@ -406,9 +385,7 @@ In the `<application>` element, we can add the `<service>` element as its child.
 
 ```xml
 <manifest ...>
-
 <application ...>
-
 <service android:name=".MyService" />
 
 ...
